@@ -1,0 +1,238 @@
+swagger: "2.0"
+info:
+  description: "Contrato para intercambio de información entre saig-backend y saig-frontend"
+  version: "1.0.0"
+  title: "Sistema de Adquisición de Imágenes Geolocalizadas"
+  contact:
+    email: "martin.sauczuk@gmail.com"
+host: "mybackend"
+basePath: "/v2"
+tags:
+- name: "objetivos"
+  description: "Objetivos para fotografiar"
+
+schemes:
+- "https"
+- "http"
+paths:
+  /objetivos:
+    get:
+      tags:
+      - "objetivos"
+      summary: "Obtener todos los objetivos para ser fotografiados"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: query
+        name: estado
+        type: string
+      responses:
+        200:
+          description: "Consulta OK"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/Objetivo"
+    post:
+      tags:
+      - "objetivos"
+      summary: "Generar nuevo objetivo para ser fotografiado"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objetivo a ser creado"
+        required: true
+        schema:
+          $ref: "#/definitions/Objetivo"
+
+      responses:
+        200:
+          description: "Objetivo creado OK"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/Objetivo"
+
+  /objetivos/{objetivoId}:
+    put:
+      tags:
+      - "objetivos"
+      summary: "Editar objetivo existente"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: objetivoId
+        type: string
+        required: true
+      - in: body
+        name: body
+        description: "Objetivo a ser creado"
+        required: true
+        schema:
+          $ref: "#/definitions/Objetivo"
+
+      responses:
+        200:
+          description: "Obejetivo creado OK"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/Objetivo"
+    delete:
+      tags:
+      - "objetivos"
+      summary: "Eliminar objetivo existente"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: objetivoId
+        type: string
+        required: true
+      responses:
+        200:
+          description: "Objetivo eliminado OK"
+
+  
+
+
+definitions:
+  Objetivo:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "id único"
+      titulo:
+        type: "string"
+        description: "Nombre descriptivo del lugar que se desea fotografiar"
+        example: "Plaza del Maestro"
+      estado:
+        type: "string"
+        description: "Estado del objetivo"
+        example: "NUEVO"
+      cantImagenes:
+        type: "integer"
+        description: "Cantidad de imagenes asociadas"
+        example: 5
+      coordenadas:
+        type: "array"
+        items:
+          type: "number"
+          format: "float"
+        description: "Coordenadas del punto"
+        example: [
+          -58.38199138641357,
+          -34.608415850547374
+        ]
+      audit:
+        $ref: "#/definitions/Audit"
+  
+  ObjetivoDetalle:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "id único"
+      titulo:
+        type: "string"
+        description: "Nombre descriptivo del lugar que se desea fotografiar"
+        example: "Plaza del Maestro"
+      estado:
+        type: "string"
+        description: "Estado del objetivo"
+        example: "NUEVO"
+      imagenes:
+        type: "array"
+        description: "Coleccion de imagenes asociadas"
+        items:
+          type: "array"
+          items:
+            $ref: "#/definitions/Imagen"
+      coordenadas:
+        type: "array"
+        items:
+          type: "number"
+          format: "float"
+        description: "Coordenadas del punto"
+        example: [
+          -58.38199138641357,
+          -34.608415850547374
+        ]
+      audit:
+        $ref: "#/definitions/Audit"
+
+
+  Imagen:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "id único"
+      url:
+        type: "string"
+        description: "URL de la imagen dentro del servidor"
+        example: "http://saigserver.com/images/3i54hi30odj.jpg"
+      coordenadas:
+        type: "array"
+        items:
+          type: "number"
+          format: "float"
+        description: "Coordenadas de la foto"
+        example: [
+          -58.38199138641357,
+          -34.608415850547374
+        ]
+      createdBy:
+        type: "string"
+        format: "string"
+        description: "Id del movil"
+        example: "1M34HG"
+      createdAt:
+        type: "string"
+        format: "date-time"
+        description: "Fecha de creación"
+        example: "2018-12-31T23:59:59.999Z"
+        
+  Audit:
+    type: "object"
+    properties:
+      createdAt:
+        type: "string"
+        format: "date-time"
+        description: "Fecha de creación"
+        example: "2018-12-31T23:59:59.999Z"
+      updatedAt:
+        type: "string"
+        format: "date"
+        description: "Fecha de última modificación"
+        example: "2018-12-31T23:59:59.999Z"
+      createdBy:
+        type: "string"
+        format: "string"
+        description: "Usuario de creación"
+        example: "Martin Sauczuk"
+      updatedBy:
+        type: "string"
+        format: "string"
+        description: "Usuario de última modificación"
+        example: "Martin Sauczuk"
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
