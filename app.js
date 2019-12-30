@@ -12,6 +12,10 @@ var expressWinston = require('express-winston');
 // const mongoUri = 'mongodb://localhost:27017/saigDB';
 const mongoUri = process.env.MONGODB_URI;
 
+const PORT = process.env.PORT || 8000
+
+
+
 // Iniciializar variables
 var app = express();
 
@@ -61,7 +65,7 @@ app.use('/mock', mockRoutes);
 
 
 // Server start
-app.listen(3000, () => {
+app.listen(PORT, () => {
     
     logger.info('Express server puerto 3000 online');
     
