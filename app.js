@@ -9,7 +9,8 @@ var expressWinston = require('express-winston');
 /**
  * Parametros
  */
-const mongoUri = 'mongodb://localhost:27017/saigDB';
+// const mongoUri = 'mongodb://localhost:27017/saigDB';
+const mongoUri = MONGODB_URI;
 
 // Iniciializar variables
 var app = express();
